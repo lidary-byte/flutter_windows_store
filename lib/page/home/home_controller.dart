@@ -1,65 +1,45 @@
-import 'package:banner_carousel/banner_carousel.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_windows_store/bean/home_banner_entity.dart';
 import 'package:flutter_windows_store/http/http_manage.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
-  // final List<HomeContentBeanData> _homeBean = [];
-  //
-  // List<HomeContentBeanData> get homeBean => _homeBean;
+class HomeController extends GetxController with StateMixin {
+  final List _homeList = [];
 
-  final List<BannerModel> _bannerList = [];
+  List get homeList => _homeList;
 
-  List<BannerModel> get bannerList => _bannerList;
+  final List _banner = [];
 
-  final List<HomeBannerData> _banner = [];
-
-  List<HomeBannerData> get banner => _banner;
- 
+  List get banner => _banner;
 
   @override
   void onReady() {
     super.onReady();
-    // _homeList();
-    _homeBanner();
+    _homeData();
   }
 
-  void _homeBanner() async {
+  void _homeData() async {
+    change(null, status: RxStatus.loading());
+    final banner = HttpManager.getInstance().get(
+        "appstorecontents/page/top_contents",
+        queryParameters: {'pageType': 'soft'});
+    final homeList = HttpManager.getInstance().get(
+        "appstorecontents/page/op_recommend_contents",
+        queryParameters: {'pageType': 'soft'});
     try {
-      var rep = await HttpManager.getInstance().get(
-          "appstorecontents/page/top_contents",
-          queryParameters: {'pageType': 'soft'});
-      var data = HomeBannerEntity.fromJson(rep);
-      if (data.status == 0 && data.data != null) {
-        _bannerList.clear();
-        data.data?[0].dataList?.forEach((element) {
-          _bannerList.add(
-              BannerModel(imagePath: element.contentImgBig ?? '', id: '${element.contentImgBig}'));
-        });
+      final resp = await Future.wait([banner, homeList]);
+      if (resp[0]['status'] == 0 && resp[0]['data'] != null) {
         _banner.clear();
-        _banner.addAll(data.data!);
-        update();
+        _banner.addAll(resp[0]['data']);
       }
+      if (resp[1]['status'] == 0 && resp[1]['data'] != null) {
+        _homeList.clear();
+        _homeList.addAll(resp[1]['data']);
+      }
+      change(null, status: RxStatus.success());
+      update();
     } on DioError catch (e) {
       e.printError;
+      change(null, status: RxStatus.error());
     }
   }
-
-  // void _homeList() async {
-  //   try {
-  //     var rep = await HttpManager.getInstance()
-  //         .get("api/webstorecontents/page/contents");
-  //     var data = HomeContentBeanEntity.fromJson(rep);
-  //
-  //     if (data.status == 0 && data.data != null) {
-  //       _homeBean.clear();
-  //       _homeBean.addAll(data.data!);
-  //       update();
-  //     }
-  //   } on DioError catch (e) {
-  //     e.printError;
-  //   }
-  // }
 }

@@ -29,12 +29,12 @@ class HttpManager {
         baseUrl: "https://pc-store.lenovomm.cn/");
     _dio = Dio(options)
       ..interceptors.add(PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-          responseHeader: true,
-          responseBody: true,
-          error: true,
-          compact: true));
+          requestHeader: false,
+          requestBody: false,
+          responseHeader: false,
+          responseBody: false,
+          error: false,
+          compact: false));
   }
 
   Future<dynamic> get(String url,
