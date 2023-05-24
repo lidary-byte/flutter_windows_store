@@ -1,5 +1,6 @@
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_windows_store/bean/home_banner_entity.dart';
 import 'package:flutter_windows_store/http/http_manage.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,7 @@ class HomeController extends GetxController {
   final List<HomeBannerData> _banner = [];
 
   List<HomeBannerData> get banner => _banner;
+ 
 
   @override
   void onReady() {

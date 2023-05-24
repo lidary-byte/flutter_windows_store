@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_windows_store/page/home/home_page.dart';
+import 'package:flutter_windows_store/widget/desktop_scroll_behavior.dart';
 import 'package:get/get.dart';
 
 import 'constant/router_pages.dart';
@@ -13,6 +14,7 @@ void main() {
       primarySwatch: Colors.blue,
     ),
     getPages: RouterPages.pages,
+    scrollBehavior: DesktopScrollBehavior(),
   ));
 }
 
@@ -41,7 +43,7 @@ class MainPage extends StatelessWidget {
                         const Text('data2'),
                         const Text('data3'),
                         const Text('data4'),
-                      ], //禁止ViewPager的左右滑动
+                      ],
                     )),
           )
         ],

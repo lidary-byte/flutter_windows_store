@@ -19,34 +19,34 @@ class _HomePageState extends State<HomePage>
     super.build(context);
     return GetBuilder<HomeController>(
       builder: (_) => ListView.builder(
-        itemBuilder: (context, index) => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          _banner(),
-        //     Padding(
-        //       padding: const EdgeInsets.all(16),
-        //       child: Text(
-        //         _controller.homeBean[index].title ?? '',
-        //         style:
-        //             const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        //       ),
-        //     ),
-        //     Container(
-        //       height: 200,
-        //       child: GridView.builder(
-        //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        //             crossAxisCount: 2),
-        //         itemBuilder: (context, gridIndex) => _gridItem(
-        //             _controller.homeBean[index].dataList?[0].apps?[gridIndex]),
-        //         itemCount:
-        //             _controller.homeBean[index].dataList?[0].apps?.length ?? 0,
-        //         scrollDirection: Axis.horizontal,
-        //       ),
-        //     )
-          ],
-        ),
-        itemCount: 1//_controller.homeBean.length,
-      ),
+          itemBuilder: (context, index) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _topBanner(),
+                  //     Padding(
+                  //       padding: const EdgeInsets.all(16),
+                  //       child: Text(
+                  //         _controller.homeBean[index].title ?? '',
+                  //         style:
+                  //             const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: 200,
+                  //       child: GridView.builder(
+                  //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  //             crossAxisCount: 2),
+                  //         itemBuilder: (context, gridIndex) => _gridItem(
+                  //             _controller.homeBean[index].dataList?[0].apps?[gridIndex]),
+                  //         itemCount:
+                  //             _controller.homeBean[index].dataList?[0].apps?.length ?? 0,
+                  //         scrollDirection: Axis.horizontal,
+                  //       ),
+                  //     )
+                ],
+              ),
+          itemCount: 1 //_controller.homeBean.length,
+          ),
     );
   }
 
@@ -64,20 +64,27 @@ class _HomePageState extends State<HomePage>
   //   );
   // }
 
-  Widget _banner() {
+  Widget _topBanner() {
     return Row(
       children: [
         BannerCarousel(
           banners: _controller.bannerList,
-          customizedIndicators: IndicatorModel.animation(width: 20, height: 5, spaceBetween: 2, widthAnimation: 50),
-          height: 120,
+          customizedIndicators: const IndicatorModel.animation(
+              width: 20, height: 5, spaceBetween: 2, widthAnimation: 50),
+          height: 200,
           activeColor: Colors.amberAccent,
-          disableColor: Colors.white,
+          disableColor: Colors.grey,
           animation: true,
           borderRadius: 10,
-          width: 250,
-          indicatorBottom: false,
+          width: 500,
+          indicatorBottom: true,
         ),
+        Expanded(
+            child: Container(
+              width: double.infinity,
+          height: 200,
+          color: Colors.red,
+        ))
       ],
     );
   }
