@@ -23,17 +23,46 @@ class _SettingPageState extends State<SettingPage>
       builder: (_) => ListView(
         children: [
           const Text(
-            '下载设置',
+            '偏好设置',
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 8,
           ),
           ListTile(
+            leading: const Icon(Icons.token),
+            title: const Text('Token'),
+            subtitle: TextField(
+              controller: _controller.tokenController,
+              enabled: _controller.tokenEdit,
+              maxLines: null,
+              onChanged: (text){
+
+              },
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Visibility(
+                  child: commBtn('重置', onTap: () => _controller.resetToken()),
+                  visible: _controller.visibleResetBtn,
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                commBtn(_controller.tokenEdit ? '保存' : '更改',
+                    onTap: () => _controller.changeTokenEdit())
+              ],
+            ),
+            titleTextStyle: const TextStyle(
+                fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16),
+            leadingAndTrailingTextStyle: const TextStyle(fontSize: 14),
+          ),
+          ListTile(
             leading: const Icon(Icons.download),
             title: const Text('文件保存路径'),
             subtitle: Text(_controller.downloadPath),
-            trailing: appDownload('更改'),
+            trailing: commBtn('更改'),
             titleTextStyle: const TextStyle(
                 fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16),
             leadingAndTrailingTextStyle: const TextStyle(fontSize: 14),
@@ -41,7 +70,7 @@ class _SettingPageState extends State<SettingPage>
           ),
           IconButton(
               onPressed: () async {
-                // _controller.onReady();
+                _controller.onReady();
               },
               icon: Icon(Icons.download))
         ],

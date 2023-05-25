@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_windows_store/constant/app_path.dart';
+import 'package:flutter_windows_store/constant/app_prefs.dart';
 import 'package:flutter_windows_store/page/home/home_page.dart';
 import 'package:flutter_windows_store/page/setting/setting_page.dart';
 import 'package:flutter_windows_store/widget/desktop_scroll_behavior.dart';
@@ -85,5 +85,5 @@ class MainPage extends StatelessWidget {
 
 /// 初始化一些设置
 Future init() async {
-  await AppPath.getInstance().initPrefs();
+  await AppPrefs.getInstance().initPrefs();
 }

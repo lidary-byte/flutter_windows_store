@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage>
               ],
             )),
             Center(
-                child: appDownload('下载',
+                child: commBtn('下载',
                     onTap: () => _controller.downloadApp(
                         rankItem['softID'], rankItem['bizInfo'])))
           ],

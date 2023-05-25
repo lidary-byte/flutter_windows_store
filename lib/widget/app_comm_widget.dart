@@ -13,8 +13,8 @@ Widget appIcon(String url) {
   );
 }
 
-/// 下载按钮
-Widget appDownload(String text, {GestureTapCallback? onTap}) {
+/// app 通用按钮
+Widget commBtn(String text, {GestureTapCallback? onTap}) {
   return GestureDetector(
     onTap: onTap,
     child: Container(

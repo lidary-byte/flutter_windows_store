@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_windows_store/constant/app_prefs.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class HttpManager {
@@ -20,9 +21,8 @@ class HttpManager {
         receiveTimeout: const Duration(milliseconds: receiveTimeout),
         headers: {
           // HttpHeaders.userAgentHeader: 'dio',
-          'token':
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcyI6IndpbjEwIiwiY2giOiI4LjYuMC4wNDAzIiwibXQiOiJMZW5vdm8gVGhpbmtCb29rIDE0cCBHZW4gMiIsIm9zQml0IjoiNjQiLCJzbiI6IjJhZDYxNTVmODg5ZWM3M2M3NGIxMWY4MDYyY2Y0ZWU3YmUxMjcyZjFmNGI3YjE3NjQzZTIzN2ZkYmU1NTAyMGEiLCJleHAiOjE2ODYxODc5NjMsInV1aWQiOiI0MTU0MDVBNC00NUJBLTExRUMtODBGMC04NEE5MzhCNDVGODMiLCJtYWMiOiI0Y2Q1NzcwYTcwMjEifQ.qWiepancBcorkKHlA7LVR9rgMyu4x1Fy4RR5M1feC1Q'
-          // 'common-header': 'xx',
+          'token': AppPrefs.getInstance().token
+                 // 'common-header': 'xx',
         },
         contentType: Headers.jsonContentType,
         responseType: ResponseType.json,
