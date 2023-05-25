@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_windows_store/page/home/home_page.dart';
+import 'package:flutter_windows_store/page/setting/setting_page.dart';
 import 'package:flutter_windows_store/widget/desktop_scroll_behavior.dart';
 import 'package:get/get.dart';
 
@@ -38,11 +39,11 @@ class MainPage extends StatelessWidget {
                 builder: (_) => PageView(
                       controller: _controller.pageController,
                       physics: const NeverScrollableScrollPhysics(),
-                      children: [
+                      children: const [
                         HomePage(),
-                        const Text('data2'),
-                        const Text('data3'),
-                        const Text('data4'),
+                        Text('data3'),
+                        Text('data4'),
+                        SettingPage(),
                       ],
                     )),
           )
@@ -63,7 +64,7 @@ class MainPage extends StatelessWidget {
                 NavigationRailDestination(
                     icon: Icon(Icons.library_music), label: Text('音乐库')),
                 NavigationRailDestination(
-                    icon: Icon(Icons.person), label: Text(""))
+                    icon: Icon(Icons.settings), label: Text("设置"))
               ],
               selectedIndex: _controller.showPageIndex,
               labelType: NavigationRailLabelType.selected,

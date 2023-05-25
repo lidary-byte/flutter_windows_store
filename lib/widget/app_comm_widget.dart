@@ -14,9 +14,9 @@ Widget appIcon(String url) {
 }
 
 /// 下载按钮
-Widget appDownload({Function? onTap}) {
+Widget appDownload({GestureTapCallback? onTap}) {
   return GestureDetector(
-    onTap: onTap?.call(),
+    onTap: onTap,
     child: Container(
       //边框设置
       decoration: const BoxDecoration(

@@ -46,9 +46,9 @@ class _HomePageState extends State<HomePage>
         sliver: SliverGrid.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
-              childAspectRatio: 6,
+              childAspectRatio: 5,
               mainAxisSpacing: 6,
-              crossAxisSpacing: 16),
+              crossAxisSpacing: 14),
           itemBuilder: (context, index) => _rankItem(apps[index]),
           itemCount: apps.length,
         ),
@@ -58,28 +58,38 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _rankItem(dynamic rankItem) {
-    return Row(
+    return Column(
       children: [
-        appIcon(rankItem['logoFile']),
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                rankItem['softName'],
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(rankItem['downloadCount'],
-                  maxLines: 1, overflow: TextOverflow.ellipsis),
-            ],
-          ),
-        )),
-        Center(child: appDownload())
+        Row(
+          children: [
+            appIcon(rankItem['logoFile']),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  rankItem['softName'],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(rankItem['downloadCount'],
+                    maxLines: 1, overflow: TextOverflow.ellipsis),
+              ],
+            )),
+            Center(
+                child: appDownload(
+                    onTap: () => _controller.downloadApp(
+                        rankItem['softID'], rankItem['bizInfo'])))
+          ],
+        ),
+        Padding(
+            padding: const EdgeInsets.only(left: 50, top: 10),
+            child: Divider(height: 1, color: Colors.grey[300]))
       ],
     );
   }
