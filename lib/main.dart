@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_windows_store/constant/app_prefs.dart';
-import 'package:flutter_windows_store/page/home/home_page.dart';
-import 'package:flutter_windows_store/page/setting/setting_page.dart';
 import 'package:flutter_windows_store/widget/desktop_scroll_behavior.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +16,7 @@ void main() async {
       primarySwatch: Colors.blue,
     ),
     debugShowCheckedModeBanner: false,
-    getPages: RouterPages.pages,
+    getPages: RouterPages.getPages,
     scrollBehavior: DesktopScrollBehavior(),
   ));
 }
@@ -33,13 +31,11 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Windows Store'),
-        actions: [
-          IconButton(
-              onPressed: () {
-
-              }, icon:const Icon(Icons.download_for_offline_outlined))
-        ],
+        title: GetBuilder<MainController>(
+            builder: (_) => Text(
+                  RouterPages.pageNames[_controller.showPageIndex],
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                )),
       ),
       body: Row(
         children: [
@@ -49,12 +45,7 @@ class MainPage extends StatelessWidget {
                 builder: (_) => PageView(
                       controller: _controller.pageController,
                       physics: const NeverScrollableScrollPhysics(),
-                      children: const [
-                        HomePage(),
-                        Text('data3'),
-                        Text('data4'),
-                        SettingPage(),
-                      ],
+                      children: RouterPages.pages,
                     )),
           )
         ],
@@ -72,7 +63,7 @@ class MainPage extends StatelessWidget {
                 NavigationRailDestination(
                     icon: Icon(Icons.find_in_page), label: Text('发现')),
                 NavigationRailDestination(
-                    icon: Icon(Icons.library_music), label: Text('音乐库')),
+                    icon: Icon(Icons.download), label: Text('下载')),
                 NavigationRailDestination(
                     icon: Icon(Icons.settings), label: Text("设置"))
               ],

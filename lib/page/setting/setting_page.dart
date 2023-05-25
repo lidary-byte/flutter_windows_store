@@ -44,8 +44,8 @@ class _SettingPageState extends State<SettingPage>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Visibility(
-                  child: commBtn('重置', onTap: () => _controller.resetToken()),
                   visible: _controller.visibleResetBtn,
+                  child: commBtn('重置', onTap: () => _controller.resetToken()),
                 ),
                 const SizedBox(
                   width: 16,
