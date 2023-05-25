@@ -1,9 +1,8 @@
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_windows_store/page/home/home_controller.dart';
+import 'package:flutter_windows_store/widget/app_comm_widget.dart';
 import 'package:get/get.dart';
-
-import '../../bean/home_list_entity.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,66 +18,70 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return _controller.obx((state) => ListView.builder(
-          itemBuilder: (context, index) => index == 0
-              ? _topBanner()
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                        _controller.homeList[index - 1]['title'],
-                        style: const TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      height: 200,
-                      child: GridView.extent(
-                          mainAxisSpacing: 18,
-                          maxCrossAxisExtent: 120,
-                          scrollDirection: Axis.vertical,
-                          children: _gridItem(_controller.homeList[index - 1])),
-                    )
-                  ],
-                ),
-          itemCount: _controller.homeList.length + 1,
-        ));
+    return PrimaryScrollController(
+        controller: ScrollController(),
+        child: _controller
+            .obx((state) => CustomScrollView(slivers: _buildItem())));
   }
 
-  List<Widget> _gridItem(dynamic appList) {
-    if (appList['card_type'] == 'rank_list') {
-      return (appList['dataList'][0]['apps'] as List)
-          .map((e) => Column(
-                children: [
-                  Image.network(
-                    e['logoFile'],
-                    height: 40,
-                    width: 40,
-                  ),
-                  Text(e['softName']),
-                  Text(e['downloadCount'])
-                ],
-              ))
-          .toList();
+  List<Widget> _buildItem() {
+    final widgets = <Widget>[];
+    // banner
+    widgets.add(SliverList(delegate: SliverChildListDelegate([_topBanner()])));
+    final rankList = _controller.homeList
+        .where((element) => element['cardType'] == 'rank_list');
+
+    for (var element in rankList) {
+      widgets.add(SliverToBoxAdapter(
+          child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                element['title'],
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ))));
+      final apps = element['dataList'][0]['apps'] as List;
+      widgets.add(SliverPadding(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+        sliver: SliverGrid.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              childAspectRatio: 6,
+              mainAxisSpacing: 6,
+              crossAxisSpacing: 16),
+          itemBuilder: (context, index) => _rankItem(apps[index]),
+          itemCount: apps.length,
+        ),
+      ));
     }
-    if (appList['card_type'] == 'course_rank_list_parts') {
-      return (appList['dataList'][0]['courseList'] as List)
-          .map((e) => Column(
-                children: [
-                  Image.network(
-                    e['imgUrl'],
-                    height: 40,
-                    width: 40,
-                  ),
-                  Text(e['name']),
-                  Text(e['shortDesc'])
-                ],
-              ))
-          .toList();
-    }
-    return <Widget>[];
+    return widgets;
+  }
+
+  Widget _rankItem(dynamic rankItem) {
+    return Row(
+      children: [
+        appIcon(rankItem['logoFile']),
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                rankItem['softName'],
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(rankItem['downloadCount'],
+                  maxLines: 1, overflow: TextOverflow.ellipsis),
+            ],
+          ),
+        )),
+        Center(child: appDownload())
+      ],
+    );
   }
 
   Widget _topBanner() {

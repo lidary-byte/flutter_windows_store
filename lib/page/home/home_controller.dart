@@ -36,10 +36,29 @@ class HomeController extends GetxController with StateMixin {
         _homeList.addAll(resp[1]['data']);
       }
       change(null, status: RxStatus.success());
-      update();
     } on DioError catch (e) {
       e.printError;
       change(null, status: RxStatus.error());
     }
+  }
+
+  void _download(String softId, String bizInfo) async {
+    HttpManager.getInstance()
+        .get('dlservice/getPcSoftDownloadUrlList', queryParameters: {
+          // 这两个参数是必填项
+      'softid': softId,
+      'bizInfo': bizInfo,
+      'bizType': '1',
+      'product': '1',
+      'vc': '2.0.44',
+      'deviceModel': 'Lenovo ThinkBook 14p Gen 2',
+      'deviceId': '4cd5770a7021',
+      'sn': 'PF3BB6GM',
+      'os': 'Windows 10 Home(x64)',
+      'osBit': '64',
+      'vt': '1',
+      'cVersionName': '8.7.30.0524',
+      'cVersionCode': '8.7.30.0524'
+    });
   }
 }
