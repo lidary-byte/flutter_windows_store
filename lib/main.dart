@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_windows_store/constant/app_path.dart';
 import 'package:flutter_windows_store/page/home/home_page.dart';
 import 'package:flutter_windows_store/page/setting/setting_page.dart';
 import 'package:flutter_windows_store/widget/desktop_scroll_behavior.dart';
@@ -7,13 +8,16 @@ import 'package:get/get.dart';
 import 'constant/router_pages.dart';
 import 'main_controller.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await init();
   runApp(GetMaterialApp(
     title: 'Windows Store',
     theme: ThemeData(
       useMaterial3: true,
       primarySwatch: Colors.blue,
     ),
+    debugShowCheckedModeBanner: false,
     getPages: RouterPages.pages,
     scrollBehavior: DesktopScrollBehavior(),
   ));
@@ -30,6 +34,12 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Windows Store'),
+        actions: [
+          IconButton(
+              onPressed: () {
+
+              }, icon:const Icon(Icons.download_for_offline_outlined))
+        ],
       ),
       body: Row(
         children: [
@@ -71,4 +81,9 @@ class MainPage extends StatelessWidget {
               onDestinationSelected: (index) => _controller.switchPage(index),
             ));
   }
+}
+
+/// 初始化一些设置
+Future init() async {
+  await AppPath.getInstance().initPrefs();
 }

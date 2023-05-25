@@ -14,7 +14,7 @@ Widget appIcon(String url) {
 }
 
 /// 下载按钮
-Widget appDownload({GestureTapCallback? onTap}) {
+Widget appDownload(String text, {GestureTapCallback? onTap}) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
@@ -25,10 +25,10 @@ Widget appDownload({GestureTapCallback? onTap}) {
         //设置四周圆角 角度
         borderRadius: BorderRadius.all(Radius.circular(14)),
       ),
-      child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-          child:
-              Text("下载", style: TextStyle(fontSize: 12, color: Colors.white))),
+      child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+          child: Text(text,
+              style: const TextStyle(fontSize: 12, color: Colors.white))),
     ),
   );
 }
