@@ -84,7 +84,10 @@ class _HomePageState extends State<HomePage>
             Center(
                 child: commBtn('下载',
                     onTap: () => _controller.downloadApp(
-                        rankItem['softID'], rankItem['bizInfo'])))
+                        rankItem['softID'],
+                        rankItem['bizInfo'],
+                        rankItem['softName'],
+                        rankItem['logoFile'])))
           ],
         ),
         Padding(

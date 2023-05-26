@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_windows_store/constant/app_prefs.dart';
 import 'package:flutter_windows_store/widget/desktop_scroll_behavior.dart';
@@ -78,3 +79,5 @@ class MainPage extends StatelessWidget {
 Future init() async {
   await AppPrefs.getInstance().initPrefs();
 }
+
+

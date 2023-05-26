@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_windows_store/http/http_manage.dart';
+import 'package:flutter_windows_store/util/download_util.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController with StateMixin {
@@ -42,8 +45,8 @@ class HomeController extends GetxController with StateMixin {
     }
   }
 
-  void downloadApp(String softId, String bizInfo) async {
-
+  void downloadApp(
+      String softId, String bizInfo, String softName, String icon) async {
     try {
       final resp = await HttpManager.getInstance()
           .get('dlservice/getPcSoftDownloadUrlList', queryParameters: {
@@ -63,13 +66,17 @@ class HomeController extends GetxController with StateMixin {
         'cVersionCode': '8.7.30.0524'
       });
       if (resp['status'] == 0 && resp['data'] != null) {
-        // (resp['data'] as List)[0]
+        final map = {'name': softName, 'icon': icon};
+        DownloadUtil.getInstance().download(
+            (resp['data']['downloadUrls'] as List)[0]['downLoadUrl'],
+            softId,
+            resp['data']['fileName'],
+            jsonEncode(map));
       }
       change(null, status: RxStatus.success());
     } on DioError catch (e) {
       e.printError;
       change(null, status: RxStatus.error());
     }
-
   }
 }
