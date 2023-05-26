@@ -1,5 +1,6 @@
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windows_store/constant/router_pages.dart';
 import 'package:flutter_windows_store/page/home/home_controller.dart';
 import 'package:flutter_windows_store/widget/app_comm_widget.dart';
 import 'package:get/get.dart';
@@ -58,42 +59,48 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _rankItem(dynamic rankItem) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            appIcon(rankItem['logoFile']),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  rankItem['softName'],
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(rankItem['downloadCount'],
-                    maxLines: 1, overflow: TextOverflow.ellipsis),
-              ],
-            )),
-            Center(
-                child: commBtn('下载',
-                    onTap: () => _controller.downloadApp(
-                        rankItem['softID'],
-                        rankItem['bizInfo'],
-                        rankItem['softName'],
-                        rankItem['logoFile'])))
-          ],
-        ),
-        Padding(
-            padding: const EdgeInsets.only(left: 50, top: 10),
-            child: Divider(height: 1, color: Colors.grey[300]))
-      ],
+    return GestureDetector(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              appIcon(rankItem['logoFile']),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    rankItem['softName'],
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(rankItem['downloadCount'],
+                      maxLines: 1, overflow: TextOverflow.ellipsis),
+                ],
+              )),
+              Center(
+                  child: commBtn('下载',
+                      onTap: () => _controller.downloadApp(
+                          rankItem['softID'],
+                          rankItem['bizInfo'],
+                          rankItem['softName'],
+                          rankItem['logoFile'])))
+            ],
+          ),
+          Padding(
+              padding: const EdgeInsets.only(left: 50, top: 10),
+              child: Divider(height: 1, color: Colors.grey[300]))
+        ],
+      ),
+      onTap: () => Get.toNamed(RouterPages.detailsPageRouter, parameters: {
+        'softId': rankItem['softID'],
+        'bizInfo': rankItem['bizInfo'],
+      }),
     );
   }
 
