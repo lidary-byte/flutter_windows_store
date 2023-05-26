@@ -9,7 +9,6 @@ import 'package:flutter_windows_store/util/app_event.dart';
 import 'package:get/get.dart';
 
 class DownloadController extends GetxController {
-  StreamSubscription? _downloadSubscription;
   StreamSubscription? _downloadListSubscription;
 
   final List<DownloadTaskRecord> _taskRecord = [];
@@ -120,7 +119,7 @@ class DownloadController extends GetxController {
 
   @override
   void onClose() {
-    _downloadSubscription?.cancel();
+    FileDownloader().unregisterCallbacks();
     _downloadListSubscription?.cancel();
     super.onClose();
   }
