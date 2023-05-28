@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_meedu_videoplayer/init_meedu_player.dart';
 import 'package:flutter_windows_store/constant/app_prefs.dart';
 import 'package:flutter_windows_store/widget/desktop_scroll_behavior.dart';
 import 'package:get/get.dart';
@@ -78,5 +77,4 @@ class MainPage extends StatelessWidget {
 /// 初始化一些设置
 Future init() async {
   await AppPrefs.getInstance().initPrefs();
-  await initMeeduPlayer();
 }
