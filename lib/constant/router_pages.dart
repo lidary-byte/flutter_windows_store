@@ -10,8 +10,9 @@ import '../main.dart';
 class RouterPages {
   static const mainPageRouter = "/";
   static const homePageRouter = "/home_page";
-  static const settingPageRouter = '/setting_page';
+  static const appListPageRouter = '/applist_page';
   static const downloadPageRouter = '/download_page';
+  static const settingPageRouter = '/setting_page';
   static const detailsPageRouter = '/details_page';
 
   static const List<Widget> pages = [
@@ -26,8 +27,9 @@ class RouterPages {
   static final List<GetPage> getPages = [
     GetPage(name: mainPageRouter, page: () => MainPage()),
     GetPage(name: homePageRouter, page: () => const HomePage()),
-    GetPage(name: settingPageRouter, page: () => const SettingPage()),
+    GetPage(name: appListPageRouter, page: () => const SettingPage()),
     GetPage(name: downloadPageRouter, page: () => const DownloadPage()),
-    GetPage(name: detailsPageRouter, page: () => AppDetailsPage())
+    GetPage(name: settingPageRouter, page: () => const SettingPage()),
+    GetPage(name: detailsPageRouter, page: () => AppDetailsPage()),
   ];
 }

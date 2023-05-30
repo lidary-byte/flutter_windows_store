@@ -19,10 +19,12 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return PrimaryScrollController(
-        controller: ScrollController(),
-        child: _controller
-            .obx((state) => CustomScrollView(slivers: _buildItem())));
+    return Scaffold(
+      body: PrimaryScrollController(
+          controller: ScrollController(),
+          child: _controller
+              .obx((state) => CustomScrollView(slivers: _buildItem()))),
+    );
   }
 
   List<Widget> _buildItem() {
