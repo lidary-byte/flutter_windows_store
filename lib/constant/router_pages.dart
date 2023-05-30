@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_windows_store/page/app/app_update_page.dart';
 import 'package:flutter_windows_store/page/details/app_details_page.dart';
 import 'package:flutter_windows_store/page/download/download_page.dart';
 import 'package:flutter_windows_store/page/home/home_page.dart';
@@ -14,10 +15,11 @@ class RouterPages {
   static const downloadPageRouter = '/download_page';
   static const settingPageRouter = '/setting_page';
   static const detailsPageRouter = '/details_page';
+  static const appManagePageRouter = '/app_manage_page';
 
   static const List<Widget> pages = [
     HomePage(),
-    DownloadPage(),
+    AppUpdatePage(),
     DownloadPage(),
     SettingPage(),
   ];
@@ -31,5 +33,6 @@ class RouterPages {
     GetPage(name: downloadPageRouter, page: () => const DownloadPage()),
     GetPage(name: settingPageRouter, page: () => const SettingPage()),
     GetPage(name: detailsPageRouter, page: () => AppDetailsPage()),
+    GetPage(name: appManagePageRouter, page: () => AppUpdatePage()),
   ];
 }

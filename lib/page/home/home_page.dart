@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage>
               child: Divider(height: 1, color: Colors.grey[300]))
         ],
       ),
-      onTap: () => Get.toNamed(RouterPages.detailsPageRouter, parameters: {
+      onTap: () => Get.toNamed(RouterPages.detailsPageRouter, arguments: {
         'softId': rankItem['softID'],
         'bizInfo': rankItem['bizInfo'],
       }),

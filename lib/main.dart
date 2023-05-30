@@ -1,7 +1,5 @@
-// import 'package:fluent_ui/fluent_ui.dart' hide Page;
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' as material;
-import 'package:flutter/src/material/colors.dart' as colors;
 import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;
 import 'package:flutter_windows_store/constant/app_prefs.dart';
 import 'package:flutter_windows_store/constant/constant.dart';
@@ -54,12 +52,15 @@ class App extends StatelessWidget {
             child: GetMaterialApp(
               darkTheme: material.ThemeData(brightness: Brightness.dark),
               themeMode:
-                  _themeController._isDrak ? ThemeMode.dark : ThemeMode.light,
+                  _themeController._isDark ? ThemeMode.dark : ThemeMode.light,
               title: appTitle,
-              locale: const Locale('zh', ''),
-              localizationsDelegates: const [FluentLocalizations.delegate],
+              locale: const Locale('zh', 'CN'),
+              localizationsDelegates: const [
+                FluentLocalizations.delegate,
+                DefaultMaterialLocalizations.delegate
+              ],
               supportedLocales: const [
-                Locale('zh', ''),
+                Locale('zh', 'CN'),
               ],
               debugShowCheckedModeBanner: false,
               getPages: RouterPages.getPages,
@@ -76,7 +77,7 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WindowListener {
   final _themeController = Get.find<AppThemeController>();
 
   int _showPageIndex = 0;
@@ -84,9 +85,10 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return material.Scaffold(
-      backgroundColor: colors.Colors.transparent,
+      backgroundColor: Colors.transparent,
       body: NavigationView(
           appBar: NavigationAppBar(
+            automaticallyImplyLeading: false,
             title: const DragToMoveArea(
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -102,7 +104,7 @@ class _MainPageState extends State<MainPage> {
                   child: GetBuilder<AppThemeController>(
                       builder: (_) => ToggleSwitch(
                             content: Text(_themeController.modeText),
-                            checked: _themeController.isDrak,
+                            checked: _themeController.isDark,
                             onChanged: (v) => _themeController.changeTheme(),
                           ))),
               SizedBox(
@@ -111,7 +113,7 @@ class _MainPageState extends State<MainPage> {
                 child: GetBuilder<AppThemeController>(
                     builder: (_) => WindowCaption(
                           brightness: _themeController.theme.brightness,
-                          backgroundColor: colors.Colors.transparent,
+                          backgroundColor: Colors.transparent,
                         )),
               )
             ]),
@@ -124,6 +126,50 @@ class _MainPageState extends State<MainPage> {
           )),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    windowManager.addListener(this);
+  }
+
+  @override
+  void dispose() {
+    windowManager.removeListener(this);
+    super.dispose();
+  }
+
+  @override
+  void onWindowClose() async {
+    super.onWindowClose();
+    final isPreventClose = await windowManager.isPreventClose();
+    if (isPreventClose) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return ContentDialog(
+            title: const Text('Confirm close'),
+            content: const Text('Are you sure you want to close this window?'),
+            actions: [
+              FilledButton(
+                child: const Text('Yes'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  windowManager.destroy();
+                },
+              ),
+              Button(
+                child: const Text('No'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 }
 
 /// 初始化一些设置
@@ -132,22 +178,25 @@ Future init() async {
 }
 
 class AppThemeController extends GetxController {
-  bool _isDrak = false;
-  bool get isDrak => _isDrak;
+  bool _isDark = false;
+
+  bool get isDark => _isDark;
 
   FluentThemeData? _theme;
+
   FluentThemeData get theme => _theme ?? FluentThemeData();
 
   String _modeText = 'Drak Mode';
+
   String get modeText => _modeText;
 
   void changeTheme() {
-    _isDrak = !_isDrak;
-    if (_isDrak) {
+    _isDark = !_isDark;
+    if (_isDark) {
       _modeText = 'Light Mode';
       _theme = _createFluentTheme();
     } else {
-      _modeText = 'Drak Mode';
+      _modeText = 'Dark Mode';
       _theme = _createFluentTheme();
     }
     update();
@@ -156,7 +205,7 @@ class AppThemeController extends GetxController {
   FluentThemeData _createFluentTheme() {
     return FluentThemeData(
       accentColor: SystemTheme.accentColor.accent.toAccentColor(),
-      brightness: _isDrak ? Brightness.dark : Brightness.light,
+      brightness: _isDark ? Brightness.dark : Brightness.light,
     );
   }
 }

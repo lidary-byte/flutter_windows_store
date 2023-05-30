@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../http/http_manage.dart';
@@ -8,6 +7,10 @@ class AppDetailsController extends GetxController with StateMixin {
   Map _details = {};
 
   Map get details => _details;
+
+  final List<String> _appDetailsImg = [];
+
+  List<String> get appDetailsImg => _appDetailsImg;
 
   @override
   void onInit() {
@@ -27,6 +30,9 @@ class AppDetailsController extends GetxController with StateMixin {
       });
       if (resp['status'] == 0 && resp['data'] != null) {
         _details = resp['data'];
+        _appDetailsImg.addAll((_details['captureFileList'] as List)
+            .where((element) => element['url'].toString().endsWith('.png'))
+            .map((e) => e['url']));
         change(null, status: RxStatus.success());
       }
     } on DioError catch (e) {

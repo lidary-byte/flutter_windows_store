@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/material.dart' as material;
 import 'package:flutter_windows_store/page/setting/setting_controller.dart';
 import 'package:get/get.dart';
 
@@ -17,15 +16,19 @@ class _SettingPageState extends State<SettingPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return material.Scaffold(
-      body: GetBuilder<SettingController>(
+    return ScaffoldPage(
+      padding: const EdgeInsets.all(16),
+      header: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Text(
+          '偏好设置',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+      ),
+      content: GetBuilder<SettingController>(
         builder: (_) => ListView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           children: [
-            const Text(
-              '偏好设置',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
             const SizedBox(height: 24),
             // Token
             Row(
@@ -56,8 +59,7 @@ class _SettingPageState extends State<SettingPage>
             TextBox(
               controller: _controller.tokenController,
               enabled: _controller.tokenEdit,
-              maxLines: null,
-              onChanged: (text) {},
+              maxLines: null
             ),
             const SizedBox(height: 24),
             Row(
