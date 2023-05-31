@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' as material;
+// import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_windows_store/constant/constant.dart';
 import 'package:flutter_windows_store/main.dart';
 import 'package:flutter_windows_store/page/details/app_details_controller.dart';
@@ -125,7 +126,6 @@ class AppDetailsPage extends StatelessWidget {
                         item['contentInfo']['text'],
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white.withAlpha(180)),
                       ),
                       const SizedBox(height: 12),
                       const Divider()
@@ -154,7 +154,9 @@ class AppDetailsPage extends StatelessWidget {
             const Divider(),
             Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Text(_controller.details['detailInfo']),
+              child: Text(
+                _controller.details['detailInfo'],
+              ),
             )
           ],
         ));

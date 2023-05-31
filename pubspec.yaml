@@ -40,6 +40,7 @@ dependencies:
   flutter_acrylic: ^1.1.0
   window_manager: ^0.3.4
   sliver_tools: ^0.2.10
+  # flutter_html: ^2.2.1
 
 #  flutter_meedu_videoplayer: ^4.2.10
 

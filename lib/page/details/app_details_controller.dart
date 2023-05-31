@@ -40,7 +40,9 @@ class AppDetailsController extends GetxController with StateMixin {
       if (resp['status'] == 0 && resp['data'] != null) {
         _details = resp['data'];
         _appDetailsImg.addAll((_details['captureFileList'] as List)
-            .where((element) => element['url'].toString().endsWith('.png'))
+            .where((element) =>
+                element['url'].toString().endsWith('.png') ||
+                element['url'].toString().endsWith('.jpg'))
             .map((e) => e['url']));
         change(null, status: RxStatus.success());
       }
