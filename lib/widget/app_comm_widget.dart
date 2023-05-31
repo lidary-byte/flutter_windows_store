@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 /// app icon
-Widget appIcon(String url, {double size = 40}) {
+Widget appIcon(String url, {double radius = 8, double size = 40}) {
   return ClipRRect(
-    borderRadius: BorderRadius.circular(8.0),
+    borderRadius: BorderRadius.circular(radius),
     child: Image.network(
       url,
       fit: BoxFit.cover,
