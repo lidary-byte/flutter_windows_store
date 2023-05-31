@@ -2,7 +2,6 @@ import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_windows_store/constant/app_prefs.dart';
 import 'package:flutter_windows_store/event/task_number_event.dart';
 import 'package:flutter_windows_store/util/app_event.dart';
-import 'package:get/get.dart';
 
 class DownloadUtil {
   static DownloadUtil? _instance;

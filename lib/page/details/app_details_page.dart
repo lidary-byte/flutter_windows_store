@@ -5,7 +5,6 @@ import 'package:flutter_windows_store/main.dart';
 import 'package:flutter_windows_store/page/details/app_details_controller.dart';
 import 'package:flutter_windows_store/widget/app_comm_widget.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:window_manager/window_manager.dart';
 
