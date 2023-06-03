@@ -10,4 +10,4 @@
 ## Screenshot
 
 ### 首页
-![首页](https://github.com/ohdu/flutter_windows_store/blob/main/screenshot/home_screenshot.png)
+![首页](https://github.com/ohdu/flutter_windows_store/blob/main/screenshot/home_screenshot.jpg)
