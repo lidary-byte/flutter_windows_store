@@ -1,6 +1,7 @@
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_windows_store/constant/router_pages.dart';
+import 'package:flutter_windows_store/entity/home_recommend_contents_entity.dart';
 import 'package:flutter_windows_store/page/home/home_controller.dart';
 import 'package:flutter_windows_store/widget/app_comm_widget.dart';
 import 'package:get/get.dart';
@@ -33,18 +34,18 @@ class _HomePageState extends State<HomePage>
       sliver: SliverList(delegate: SliverChildListDelegate([_topBanner()])),
     ));
     final rankList = _controller.homeList
-        .where((element) => element['cardType'] == 'rank_list');
+        .where((element) => element.cardType == 'rank_list');
 
     for (var element in rankList) {
       widgets.add(SliverToBoxAdapter(
           child: Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                element['title'],
+                element.title ?? '',
                 style:
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ))));
-      final apps = element['dataList'][0]['apps'] as List;
+      final apps = element.dataList?[0].apps;
       widgets.add(SliverPadding(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
         sliver: SliverGrid.builder(
@@ -53,15 +54,15 @@ class _HomePageState extends State<HomePage>
               childAspectRatio: 3,
               mainAxisSpacing: 12,
               crossAxisSpacing: 12),
-          itemBuilder: (context, index) => _rankItem(apps[index]),
-          itemCount: apps.length,
+          itemBuilder: (context, index) => _rankItem(apps?[index]),
+          itemCount: apps?.length,
         ),
       ));
     }
     return widgets;
   }
 
-  Widget _rankItem(dynamic rankItem) {
+  Widget _rankItem(HomeRecommendContentsDataListApps? rankItem) {
     return GestureDetector(
       child: Card(
         child: Row(
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage>
           children: [
             const SizedBox(width: 8),
             Center(
-              child: appIcon(rankItem['logoFile'], size: 80),
+              child: appIcon(rankItem?.logoFile ?? '', size: 80),
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -78,12 +79,12 @@ class _HomePageState extends State<HomePage>
               children: [
                 const SizedBox(height: 16),
                 Text(
-                  rankItem['softName'],
+                  rankItem?.softName ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(rankItem['downloadCount'],
+                Text(rankItem?.downloadCount ?? '0',
                     maxLines: 1, overflow: TextOverflow.ellipsis),
               ],
             )),
@@ -92,36 +93,36 @@ class _HomePageState extends State<HomePage>
               child: FilledButton(
                   child: const Text('下载'),
                   onPressed: () => _controller.downloadApp(
-                      rankItem['softID'],
-                      rankItem['bizInfo'],
-                      rankItem['softName'],
-                      rankItem['logoFile'])),
+                      rankItem?.softID ?? '',
+                      rankItem?.bizInfo ?? '',
+                      rankItem?.softName ?? '',
+                      rankItem?.logoFile ?? '')),
             ),
             const SizedBox(width: 8),
           ],
         ),
       ),
       onTap: () => Get.toNamed(RouterPages.detailsPageRouter, arguments: {
-        'softId': rankItem['softID'],
-        'bizInfo': rankItem['bizInfo'],
+        'softId': rankItem?.softID,
+        'bizInfo': rankItem?.bizInfo,
       }),
     );
   }
 
   Widget _topBanner() {
-    List<Widget>? bannerWidget = (_controller.banner[0]['dataList'] as List)
-        .map((e) => GestureDetector(
+    List<Widget>? bannerWidget = _controller.banner[0].dataList
+        ?.map((e) => GestureDetector(
               onTap: () {
                 Get.toNamed(RouterPages.detailsPageRouter, arguments: {
-                  'softId': e['appInfo']['softID'],
-                  'bizInfo': e['appInfo']['bizInfo'],
+                  'softId': e.appInfo?.softID,
+                  'bizInfo': e.appInfo?.bizInfo,
                 });
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(e['contentImgBig']),
+                      image: NetworkImage(e.contentImgBig ?? ''),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(10)),

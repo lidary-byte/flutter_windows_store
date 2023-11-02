@@ -26,8 +26,7 @@ class DownloadController extends GetxController {
     _registerDownloadListener();
     _refreshSqlDownloadList();
 
-    _downloadListSubscription = AppEvent
-        .getInstance()
+    _downloadListSubscription = AppEvent.getInstance()
         .eventBus
         .on<RefreshDownloadListEvent>()
         .listen((event) {
@@ -38,33 +37,33 @@ class DownloadController extends GetxController {
   void _registerDownloadListener() {
     FileDownloader()
         .registerCallbacks(
-        taskStatusCallback: _downloadStatusCallback,
-        taskProgressCallback: _downloadProgressCallback,
-        taskNotificationTapCallback: _notificationTapCallback)
+            taskStatusCallback: _downloadStatusCallback,
+            taskProgressCallback: _downloadProgressCallback,
+            taskNotificationTapCallback: _notificationTapCallback)
         .configureNotificationForGroup(FileDownloader.defaultGroup,
-        // For the main download button
-        // which uses 'enqueue' and a default group
-        running: const TaskNotification(
-            'Download {filename}', 'File: {filename} - {progress}'),
-        complete: const TaskNotification(
-            'Download {filename}', 'Download complete'),
-        error: const TaskNotification(
-            'Download {filename}', 'Download failed'),
-        paused: const TaskNotification(
-            'Download {filename}', 'Paused with metadata {metadata}'),
-        progressBar: true)
+            // For the main download button
+            // which uses 'enqueue' and a default group
+            running: const TaskNotification(
+                'Download {filename}', 'File: {filename} - {progress}'),
+            complete: const TaskNotification(
+                'Download {filename}', 'Download complete'),
+            error: const TaskNotification(
+                'Download {filename}', 'Download failed'),
+            paused: const TaskNotification(
+                'Download {filename}', 'Paused with metadata {metadata}'),
+            progressBar: true)
         .configureNotification(
-        complete: const TaskNotification(
-            'Download {filename}', 'Download complete'),
-        tapOpensFile: true); // dog can also open directly from tap
+            complete: const TaskNotification(
+                'Download {filename}', 'Download complete'),
+            tapOpensFile: true); // dog can also open directly from tap
   }
 
   void _downloadStatusCallback(TaskStatusUpdate status) {
     debugPrint(
         '---------------------${status.status} ---- ${status.task.metaData}');
     if (status.status == TaskStatus.complete) {
-      _addCompleteDownloadList(
-          TaskRecord(status.task, TaskStatus.complete, 1.0));
+      // _addCompleteDownloadList(
+      //     TaskRecord(status.task, TaskStatus.complete, 1.0));
       _removeDownloadList(status.task.taskId);
     }
   }

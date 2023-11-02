@@ -34,7 +34,8 @@ dependencies:
   path_provider: ^2.0.15
   shared_preferences: ^2.1.1
   background_downloader: ^7.1.0
-  fluent_ui: ^4.4.0
+  fluent_ui: ^4.7.7
+  intl: any  
   event_bus: ^2.0.0
   system_theme: ^2.1.0
   flutter_acrylic: ^1.1.0

@@ -50,17 +50,15 @@ class App extends StatelessWidget {
         builder: (_) => AnimatedFluentTheme(
             data: _themeController.theme,
             child: GetMaterialApp(
-              darkTheme: material.ThemeData(brightness: Brightness.dark),
-              themeMode:
-                  _themeController._isDark ? ThemeMode.dark : ThemeMode.light,
+              // darkTheme: material.ThemeData(brightness: Brightness.dark),
+              // themeMode:
+              //     _themeController._isDark ? ThemeMode.dark : ThemeMode.light,
               title: appTitle,
-              locale: const Locale('zh', 'CN'),
-              localizationsDelegates: const [
-                FluentLocalizations.delegate,
-                DefaultMaterialLocalizations.delegate
-              ],
+              locale: const Locale('zh'),
+              localizationsDelegates:
+                  FluentLocalizations.localizationsDelegates,
               supportedLocales: const [
-                Locale('zh', 'CN'),
+                Locale('zh'),
               ],
               debugShowCheckedModeBanner: false,
               getPages: RouterPages.getPages,
@@ -103,7 +101,13 @@ class _MainPageState extends State<MainPage> with WindowListener {
                   padding: const EdgeInsetsDirectional.only(end: 8.0),
                   child: GetBuilder<AppThemeController>(
                       builder: (_) => ToggleSwitch(
-                            content: Text(_themeController.modeText),
+                            content: Text(
+                              _themeController.modeText,
+                              style: TextStyle(
+                                  color: _themeController.isDark
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
                             checked: _themeController.isDark,
                             onChanged: (v) => _themeController.changeTheme(),
                           ))),
@@ -140,35 +144,39 @@ class _MainPageState extends State<MainPage> with WindowListener {
   }
 
   @override
-  void onWindowClose() async {
+  void onWindowClose() {
     super.onWindowClose();
-    final isPreventClose = await windowManager.isPreventClose();
-    if (isPreventClose) {
-      showDialog(
-        context: context,
-        builder: (_) {
-          return ContentDialog(
-            title: const Text('Confirm close'),
-            content: const Text('Are you sure you want to close this window?'),
-            actions: [
-              FilledButton(
-                child: const Text('Yes'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  windowManager.destroy();
-                },
+    windowManager.isPreventClose().then((isPreventClose) {
+      if (isPreventClose) {
+        showDialog(
+          context: context,
+          builder: (_) {
+            return material.Material(
+              color: Colors.transparent,
+              child: ContentDialog(
+                title: const Text('关闭App'),
+                content: const Text('你确定要关闭当前App吗?'),
+                actions: [
+                  FilledButton(
+                    child: const Text('关了'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      windowManager.destroy();
+                    },
+                  ),
+                  Button(
+                    child: const Text('不关'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
               ),
-              Button(
-                child: const Text('No'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
+            );
+          },
+        );
+      }
+    });
   }
 }
 
