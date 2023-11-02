@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_windows_store/base/status_controller.dart';
 import 'package:flutter_windows_store/entity/home_recommend_contents_entity.dart';
 import 'package:flutter_windows_store/entity/top_contents_entity.dart';
 import 'package:flutter_windows_store/http/http_manage.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController with StateMixin {
+class HomeController extends StatusController {
   final List<HomeRecommendContentsEntity> _homeList = [];
 
   List<HomeRecommendContentsEntity> get homeList => _homeList;
@@ -17,11 +17,11 @@ class HomeController extends GetxController with StateMixin {
   @override
   void onReady() {
     super.onReady();
-    _homeData();
+    homeData();
   }
 
-  void _homeData() async {
-    change(null, status: RxStatus.loading());
+  void homeData() async {
+    updateLoading();
     final banner = HttpManager.getInstance().get<List<TopContentsEntity>>(
         "appstorecontents/page/top_contents",
         queryParameters: {'pageType': 'soft'});
@@ -29,22 +29,22 @@ class HomeController extends GetxController with StateMixin {
         .get<List<HomeRecommendContentsEntity>>(
             "appstorecontents/page/op_recommend_contents",
             queryParameters: {'pageType': 'soft'});
-    try {
-      final resp = await Future.wait([banner,homeList]);
 
-      if (resp.isNotEmpty && resp[0].isSuccess && resp[0].data != null) {
-        _banner.clear();
-        _banner.addAll(resp[0].data as List<TopContentsEntity>);
-      }
-      if (resp.length > 1 && resp[1].isSuccess && resp[1].data != null) {
-        _homeList.clear();
-        _homeList.addAll(resp[1].data as List<HomeRecommendContentsEntity>);
-      }
-      change(null, status: RxStatus.success());
-    } on DioException catch (e) {
-      e.printError;
-      change(null, status: RxStatus.error());
+    final resp = await Future.wait([banner, homeList]);
+
+    if (resp.isEmpty) {
+      updateError();
+      return;
     }
+    if (resp.isNotEmpty && resp[0].isSuccess && resp[0].data != null) {
+      _banner.clear();
+      _banner.addAll(resp[0].data as List<TopContentsEntity>);
+    }
+    if (resp.length > 1 && resp[1].isSuccess && resp[1].data != null) {
+      _homeList.clear();
+      _homeList.addAll(resp[1].data as List<HomeRecommendContentsEntity>);
+    }
+    updateSuccess();
   }
 
   void downloadApp(
@@ -78,7 +78,7 @@ class HomeController extends GetxController with StateMixin {
       // change(null, status: RxStatus.success());
     } on DioError catch (e) {
       e.printError;
-      change(null, status: RxStatus.error());
+      // change(null, status: RxStatus.error());
     }
   }
 }

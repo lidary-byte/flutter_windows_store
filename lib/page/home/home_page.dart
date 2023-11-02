@@ -4,6 +4,7 @@ import 'package:flutter_windows_store/constant/router_pages.dart';
 import 'package:flutter_windows_store/entity/home_recommend_contents_entity.dart';
 import 'package:flutter_windows_store/page/home/home_controller.dart';
 import 'package:flutter_windows_store/widget/app_comm_widget.dart';
+import 'package:flutter_windows_store/widget/status_page.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,10 +21,13 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return PrimaryScrollController(
-        controller: ScrollController(),
-        child: _controller
-            .obx((state) => CustomScrollView(slivers: _buildItem())));
+    return GetBuilder<HomeController>(
+        builder: (context) => StatusPage(
+            contentWidget: () => PrimaryScrollController(
+                controller: ScrollController(),
+                child: CustomScrollView(slivers: _buildItem())),
+            status: _controller.pageStatus,
+            onRetry: _controller.homeData));
   }
 
   List<Widget> _buildItem() {
