@@ -50,9 +50,9 @@ class App extends StatelessWidget {
         builder: (_) => AnimatedFluentTheme(
             data: _themeController.theme,
             child: GetMaterialApp(
-              // darkTheme: material.ThemeData(brightness: Brightness.dark),
-              // themeMode:
-              //     _themeController._isDark ? ThemeMode.dark : ThemeMode.light,
+              darkTheme: material.ThemeData(brightness: Brightness.dark),
+              themeMode:
+                  _themeController._isDark ? ThemeMode.dark : ThemeMode.light,
               title: appTitle,
               locale: const Locale('zh'),
               localizationsDelegates:
@@ -101,13 +101,7 @@ class _MainPageState extends State<MainPage> with WindowListener {
                   padding: const EdgeInsetsDirectional.only(end: 8.0),
                   child: GetBuilder<AppThemeController>(
                       builder: (_) => ToggleSwitch(
-                            content: Text(
-                              _themeController.modeText,
-                              style: TextStyle(
-                                  color: _themeController.isDark
-                                      ? Colors.white
-                                      : Colors.black),
-                            ),
+                            content: Text(_themeController.modeText),
                             checked: _themeController.isDark,
                             onChanged: (v) => _themeController.changeTheme(),
                           ))),
