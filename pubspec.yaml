@@ -35,13 +35,14 @@ dependencies:
   shared_preferences: ^2.1.1
   background_downloader: ^7.1.0
   fluent_ui: ^4.7.7
-  intl: any  
   event_bus: ^2.0.0
   system_theme: ^2.1.0
   flutter_acrylic: ^1.1.0
   window_manager: ^0.3.4
   sliver_tools: ^0.2.10
-  # flutter_html: ^2.2.1
+  flutter_widget_from_html_core: ^0.14.6
+  url_launcher: ^6.2.1
+  pull_to_refresh: ^2.0.0
 
 #  flutter_meedu_videoplayer: ^4.2.10
 
