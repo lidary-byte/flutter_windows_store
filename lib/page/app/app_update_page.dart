@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_windows_store/entity/app_info.dart';
 import 'package:flutter_windows_store/page/app/app_update_controller.dart';
@@ -29,35 +27,37 @@ class _AppUpdatePageState extends State<AppUpdatePage>
           ),
         ),
         content: GetBuilder<AppUpdateController>(
-          builder: (_) =>
-              ListView.builder(
-                padding:const EdgeInsets.all(12),
-                itemBuilder: (context, index) {
-                  AppInfo appInfo = _controller.appInfo[index];
-                  return Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Card(
-                          child: Row(
-                            children: [
-                              // IconButton(
-                              //   onPressed: () {
-                              //     _controller.installAppList();
-                              //   },
-                              //   icon: Image.file(File(
-                              //       '${appInfo.installLocation}.ico')),
-                              // ),
-                              Column(
-                                children: [
-                                  Text(appInfo.name),
-                                  Text(appInfo.companyName)
-                                ],
-                              )
-                            ],
-                          )),
-                  );
-                },
-                itemCount: _controller.appInfo.length,
-              ),
+          builder: (_) => ListView.builder(
+            padding: const EdgeInsets.all(12),
+            itemBuilder: (context, index) {
+              AppInfo appInfo = _controller.appInfo[index];
+              return Padding(
+                padding: const EdgeInsets.all(12),
+                child: Card(
+                    child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            appInfo.name,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          Text(appInfo.companyName)
+                        ],
+                      ),
+                    ),
+                    Text('当前版本:${appInfo.fileVersion}'),
+                    const SizedBox(width: 12),
+                    FilledButton(child: const Text('更新'), onPressed: () {})
+                  ],
+                )),
+              );
+            },
+            itemCount: _controller.appInfo.length,
+          ),
         ));
   }
 

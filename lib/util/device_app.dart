@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_windows_store/entity/app_info.dart';
 
@@ -46,19 +45,19 @@ class DeviceApps {
     }
 
     return AppInfo(
-        name: '',
-        companyName: '',
-        fileVersion: '',
-        productName: '',
-        productVersion: '',
-        installLocation: '');
+      name: '',
+      companyName: '',
+      fileVersion: '',
+      productName: '',
+      productVersion: '',
+    );
   }
 
   static Future<List<AppInfo>> getAllInstalledAppsInfo() async {
     try {
       final processes = await Process.run('powershell.exe', [
         '-Command',
-        'Get-ItemProperty HKLM:\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*, HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* | Select-Object DisplayName, InstallLocation, Publisher, DisplayVersion | ConvertTo-Json -Depth 1'
+        'Get-ItemProperty HKLM:\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*, HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* | Select-Object DisplayName, Publisher, DisplayVersion | ConvertTo-Json -Depth 1'
       ]);
 
       if (processes.exitCode == 0) {
@@ -79,6 +78,7 @@ class DeviceApps {
             debugPrint('Error parsing JSON data: $e');
             return [];
           }
+
           return appList.map((appMap) => AppInfo.allFromMap(appMap)).toList();
         } catch (e) {
           debugPrint("Error :$e");

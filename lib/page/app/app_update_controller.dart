@@ -1,5 +1,5 @@
 import 'package:flutter_windows_store/entity/app_info.dart';
-import 'package:flutter_windows_store/util/device_apps.dart';
+import 'package:flutter_windows_store/util/device_app.dart';
 import 'package:get/get.dart';
 
 class AppUpdateController extends GetxController {
@@ -15,10 +15,10 @@ class AppUpdateController extends GetxController {
 
   void installAppList() async {
     _appInfo.clear();
-
     final installAppInfo = await DeviceApps.getAllInstalledAppsInfo();
-    _appInfo.addAll(
-        installAppInfo.where((element) => element.installLocation.isNotEmpty));
+    installAppInfo.removeWhere((element) =>
+        element.name.isBlank == true || element.fileVersion.isBlank == true);
+    _appInfo.addAll(installAppInfo);
     update();
   }
 }

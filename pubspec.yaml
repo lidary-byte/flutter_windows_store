@@ -42,7 +42,7 @@ dependencies:
   sliver_tools: ^0.2.10
   flutter_widget_from_html_core: ^0.14.6
   url_launcher: ^6.2.1
-  pull_to_refresh: ^2.0.0
+  pull_to_refresh: ^2.0.0 
 
 #  flutter_meedu_videoplayer: ^4.2.10
 
